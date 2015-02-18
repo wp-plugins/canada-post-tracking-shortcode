@@ -3,7 +3,7 @@
 * Plugin Name:   Canada Post Tracking Shortcode
 * Plugin URI:	 
 * Description:   Generate a parcel-tracking URL using <strong>[cp_tracker_link]</strong> shortcode
-* Version:       1.1
+* Version:       1.1.1
 * Author:        Vinny Alves
 * Author URI:    http://www.usestrict.net
 *
@@ -25,7 +25,7 @@
 
 class usc_cp_tracking_shortcode {
 	
-	const VERSION = '1.1';
+	const VERSION = '1.1.1';
 	
 	public $domain = __CLASS__; 
 	
@@ -43,9 +43,13 @@ class usc_cp_tracking_shortcode {
 	 */
 	public function fix_actions()
 	{
-		remove_action( 'woocommerce_new_customer_note', array( WC(), 'send_transactional_email'), 10, 10 );
-		
-		add_action( 'woocommerce_new_customer_note', array( &$this, 'catch_notification'), 10, 10 );
+		// Only run this for older WC versions
+		if ( version_compare( 'WOOCOMMERCE_VERSION', '2.3.3', '<' ) )
+		{
+			remove_action( 'woocommerce_new_customer_note', array( WC(), 'send_transactional_email'), 10, 10 );
+			
+			add_action( 'woocommerce_new_customer_note', array( &$this, 'catch_notification'), 10, 10 );
+		}
 	}
 	
 	
@@ -65,7 +69,7 @@ class usc_cp_tracking_shortcode {
 			if ( has_shortcode( $customer_note, 'cp_tracker_link' ) )
 				$customer_note = do_shortcode( $customer_note );
 			
-			WC()->send_transactional_email( array( 'order_id' => $order_id, 'customer_note' => $customer_note ) );
+			WC_Emails::send_transactional_email( array( 'order_id' => $order_id, 'customer_note' => $customer_note ) );
 		}
 	}
 	

@@ -8,7 +8,7 @@ Tested up to: 4.1
 Text Domain: usc_cp_tracking_shortcode
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Stable tag: 1.1
+Stable tag: 1.1.1
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VLQU2MMXKB6S2
 
 Generate a parcel-tracking URL using <strong>[cp_tracker_link]</strong> shortcode.
@@ -46,6 +46,9 @@ Valid attributes:
 There's no admin back-end. Just use the shortcode as stated in the Description section.
 
 == Changelog ==
+= 1.1.1 = 
+ * Override WC hooks only if WC version is < 2.3.3
+
 = 1.1 =
  * Applies a workaround for WooCommerce bug https://github.com/woothemes/woocommerce/issues/7349 which caused the clients to receive the comment with unparsed shortcode.
 
